@@ -1,20 +1,16 @@
 var firstName = 'John';
-<<<<<<< HEAD
 var age = 56;
 
 // Ternary operator
 // first the condition, if block and else block in sequence
 // ternary is good for not complex decisions
-=======
 var age = 14;
 
 // first the condition, if block and else block in sequence
->>>>>>> d3a81a063aa7129f66ea6dede3ee08d47e9c2f72
 age >= 18 ? console.log(firstName + ' drinks beer.')
 : console.log(firstName + ' drinks juicy.')
 
 var drink = age >= 18? 'beer' : 'juice';
-<<<<<<< HEAD
 console.log(drink);
 
 // Switch statement, is good to use in the place of long if/else statement
