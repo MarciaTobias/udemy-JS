@@ -41,7 +41,7 @@ var john = {
 
 var mark = {
     fullName: 'Mark Miller',
-    bills: [77, 475, 119, 45],
+    bills: [77, 475, 119we, 45],
     // Define the method to calculate tip
     calTips: function () {
         this.tips = [];
