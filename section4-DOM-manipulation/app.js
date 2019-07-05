@@ -64,27 +64,58 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
         roundScore += dice;
         document.querySelector('#current-' + activePlayer).textContent = roundScore;
     } else {
-        // next player.
-        // ternary operator.
-        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-        // set the roundScore to 0.
-        roundScore = 0;
+
         
-        // set the roundScore to 0 at the user interface.
-        document.getElementById('current-0').textContent = 0;
-        document.getElementById('current-1').textContent = 0;
-        
-            // remove the class
-//        document.querySelector('.player-0-panel').classList.remove('active');
-            // add a class
-//        document.querySelector('.player-1-panel').classList.add('active');
-        
-        // toggle, is the player 0 is not active it will put active and vice versa
-        document.querySelector('.player-0-panel').classList.toggle('active');
-        document.querySelector('.player-1-panel').classList.toggle('active');
-        
-        // it will hide the dice when after change the player
-        document.querySelector('.dice').style.display = 'none';
+        nextPlayer();
     }
 });
 
+// action for the hold bottom.
+document.querySelector('.btn-hold').addEventListener('click', function() {
+    
+    // add current score to global score
+    scores[activePlayer] += roundScore;
+    
+    // update the UI
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer]
+    
+    // Check if player won the game
+    if(scores[activePlayer] >= 20) {
+        
+        document.querySelector('#name-' + activePlayer).textContent = 'Winner'
+        document.querySelector('.dice').style.display = 'none';
+        // changes the style of winner text, for the winner class create at the ccs stylesheet
+        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+    
+    } else {
+        nextPlayer();
+    }
+    
+     nextPlayer();
+} )
+
+function nextPlayer() {
+    
+    // next player.
+    // ternary operator.
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    // set the roundScore to 0.
+     roundScore = 0;
+    
+    // set the roundScore to 0 at the user interface.
+    document.getElementById('current-0').textContent = 0;
+    document.getElementById('current-1').textContent = 0;
+        
+    // remove the class
+    //document.querySelector('.player-0-panel').classList.remove('active');
+    // add a class
+    //document.querySelector('.player-1-panel').classList.add('active');
+        
+    // toggle, is the player 0 is not active it will put active and vice versa
+    document.querySelector('.player-0-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+        
+    // it will hide the dice when after change the player
+    document.querySelector('.dice').style.display = 'none';
+}
