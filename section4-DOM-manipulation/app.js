@@ -9,7 +9,7 @@
 */
 
 // Array for the scores.
-var scores, roundScore, activePlayer;
+var scores, roundScore, activePlayer, gamePlaying;
 
 // initialize variables.
 init();
@@ -39,52 +39,58 @@ init();
 // anonymous function is without name and cannot be reused.
 document.querySelector('.btn-roll').addEventListener('click', function() {
     
-    // generates a random number from 0 to 6 and math.floor for integer number.
-    // just this function will have access to the dice variable.
-    // 1. Random number
-    dice = Math.floor(Math.random() * 6) + 1;
-    
-    // 2. Display the result.
-    var diceDOM = document.querySelector('.dice');
-    diceDOM.style.display = 'block';
-    diceDOM.src = 'dice-' + dice + '.png'
-      
-    // 3. Update the round score if the rolled number was NOT 1.
-    if (dice !== 1) {
-        // add score
-        roundScore += dice;
-        document.querySelector('#current-' + activePlayer).textContent = roundScore;
-    } else {
-
+    if(gamePlaying) {
         
-        nextPlayer();
+        // generates a random number from 0 to 6 and math.floor for integer number.
+        // just this function will have access to the dice variable.
+    
+        // 1. Random number
+        var dice = Math.floor(Math.random() * 6) + 1;
+    
+        // 2. Display the result.
+        var diceDOM = document.querySelector('.dice');
+        diceDOM.style.display = 'block';
+        diceDOM.src = 'dice-' + dice + '.png';
+      
+        // 3. Update the round score if the rolled number was NOT 1.
+        if (dice !== 1) {
+            // add score
+            roundScore += dice;
+            document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        } else {
+            nextPlayer();
+        }    
     }
 });
 
 // action for the hold bottom.
 document.querySelector('.btn-hold').addEventListener('click', function() {
     
-    // add current score to global score
-    scores[activePlayer] += roundScore;
     
-    // update the UI
-    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer]
-    
-    // Check if player won the game
-    if(scores[activePlayer] >= 20) {
+    if(gamePlaying) {
         
-        document.querySelector('#name-' + activePlayer).textContent = 'Winner'
-        document.querySelector('.dice').style.display = 'none';
-        // changes the style of winner text, for the winner class create at the ccs stylesheet
-        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
-        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+        // add current score to global score
+        scores[activePlayer] += roundScore;
     
-    } else {
-        nextPlayer();
+        // update the UI
+        document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    
+        // Check if player won the game
+        if(scores[activePlayer] >= 20) {
+        
+            document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+            document.querySelector('.dice').style.display = 'none';
+            // changes the style of winner text, for the winner class create at the ccs stylesheet
+            document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+            document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+            gamePlaying = false;
+    
+        } else {
+            nextPlayer();
+        }
+        
     }
-    
-     nextPlayer();
-} )
+});
 
 function nextPlayer() {
     
@@ -95,8 +101,8 @@ function nextPlayer() {
      roundScore = 0;
     
     // set the roundScore to 0 at the user interface.
-    document.getElementById('current-0').textContent = 0;
-    document.getElementById('current-1').textContent = 0;
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
         
     // remove the class
     //document.querySelector('.player-0-panel').classList.remove('active');
@@ -119,8 +125,9 @@ document.querySelector('.btn-new').addEventListener('click', init);
 function init() {
     
     scores = [0, 0];
-    roundScore = 0;
     activePlayer = 0;
+    roundScore = 0;
+    gamePlaying = true;
     
     // Style method, display property in css
     document.querySelector('.dice').style.display = 'none';
@@ -137,5 +144,4 @@ function init() {
     document.querySelector('.player-0-panel').classList.remove('active');
     document.querySelector('.player-1-panel').classList.remove('active');
     document.querySelector('.player-0-panel').classList.add('active');
-    
 }
