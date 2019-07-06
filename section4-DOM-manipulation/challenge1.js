@@ -14,6 +14,8 @@ var scores, roundScore, activePlayer, gamePlaying;
 // initialize variables.
 init();
 
+var lastDice;
+
 // select the id, selected the element, text content receive the variable dice.
 // query selector, to change, to maipulate values and elements of the page.
 // setter
@@ -51,18 +53,26 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
         var diceDOM = document.querySelector('.dice');
         diceDOM.style.display = 'block';
         diceDOM.src = 'dice-' + dice + '.png';
-      
-        // 3. Update the round score if the rolled number was NOT 1.
-        if (dice !== 1) {
+        
+        // Player looses score if the dice is 6 in a sequence.
+        if(dice === 6 && lastDice === 6) {
+            
+            scores[activePlayer] = 0;
+            document.querySelector('#score-' + activePlayer).textContent = '0';
+            nextPlayer();            
+            
+         // 3. Update the round score if the rolled number was NOT 1.    
+        } else if (dice !== 1) {
+                    
             // add score
             roundScore += dice;
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
-            
-            if(dice)
-            
+                
         } else {
             nextPlayer();
-        }    
+        }
+    
+        lastDice = dice;
     }
 });
 
