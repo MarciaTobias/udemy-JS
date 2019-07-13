@@ -1,5 +1,9 @@
-matrix:
-  include:
-  - language: node_js
-    node_js:
-      - "10"
+sudo: false
+
+language: node_js
+
+node.js:
+  - node
+
+script:
+  - npm test
