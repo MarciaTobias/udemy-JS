@@ -1,37 +1,51 @@
+// BUDGET CONTROLLER
 var budgetController = (function() {
     
-    // x and publicTest are closures
-                        
-    var x = 23;
-    var add = function(a) {
-    
-    return x + a;
-}
-
-return {
-    
-    publicTest: function(b) {
-         return add(b);
-    }
-}
+    // SOME CODE
                         
 })();
 
-// independente modules
+// UI CONTROLLER (independente modules)
 var UIController = (function() {
+    
+    // SOME CODE
     
 })(); // invoke the function
 
 
-// independente modules
+// GLOBAL APP CONTROLLER (independente modules)
 var controller = (function(budgetCtrl, UICtrl) {
     
-    var z = budgetCtrl.publicTest(5);
-    
-    // that is the only way that from the outside we can have access to z.
-    return {
-        anotherPublic: function() {
-            console.log(z);
-        }
+    var ctrlAddItem = function() {
+        
+        // 1. Get the filed input data
+        
+        // 2. Add the item to the budget controller
+        
+        // 3. Add the item to the UI 
+        
+        // 4. Calculate the budget
+        
+        // 5. Display the budget
+        
+        console.log('It works!')
+        
     }
+    
+    document.querySelector('.add__btn').addEventListener('click', ctrlAddItem);
+    
+    // add event when the user press the keyword enter
+    document.addEventListener('keypress', function(event) {
+        
+        // which is for others brozers
+        if(event.keyCode === 13 || event.which === 13) {
+            
+            ctrlAddItem();
+            
+        }      
+    });
+
 })(budgetController, UIController); // invoke the function
+
+
+
