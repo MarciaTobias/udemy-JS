@@ -1,7 +1,31 @@
 // BUDGET CONTROLLER
 var budgetController = (function() {
     
-    // SOME CODE
+    // function constructor
+    var Expense = function(id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
+    
+    // function constructor
+    var Income = function(id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    }; 
+    
+    // data structure ready to receive data
+    var data = {   
+        allItems: {
+            exp: [];
+            inc: []
+        },
+        totals: {
+            exp: 0,
+            inc: 0
+        }
+    }
                         
 })();
 
@@ -14,7 +38,6 @@ var UIController = (function() {
         inputDescription: '.add__description',
         inputValue: '.add__value',
         inputBtn: '.add__btn'
-        
     };
     
     // SOME CODE
