@@ -78,17 +78,16 @@ var UIController = (function() {
         expensesContainer: '.expenses__list'
     };
     
-    // SOME CODE
-    
     return {
         
         getInput: function() {
             
             return {    
-                // properties of an object. It will read  the input values of those fields
+                // Properties of an object. It will read  the input values of those fields
                 type: document.querySelector(DOMstrings.inputType).value, // will be either inc or exp
                 description: document.querySelector(DOMstrings.inputDescription).value,
-                value: document.querySelector(DOMstrings.inputValue).value
+                // Converts the string to a float number
+                value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
             };        
         },
         
@@ -174,27 +173,38 @@ var controller = (function(budgetCtrl, UICtrl) {
         
     };
     
+    var updateBudget = function() {
+        
+        // 1. Calculate the budget
+        
+        // 2. Return the budget
+        
+        // 3. Display the budget
+        
+    }
+    
     var ctrlAddItem = function() {
         
         var input, newItem;
         
         // 1. Get the filed input data
-        // Thats is the public method we can access
+        // That is the public method we can access
         input = UICtrl.getInput();
         
-        // 2. Add the item to the budget controller
-        newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+        if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
+            
+            // 2. Add the item to the budget controller
+            newItem = budgetCtrl.addItem(input.type, input.description, input.value);
         
-        // 3. Add the item to the UI
-        UICtrl.addListItem(newItem, input.type);
-        
-        // 4. Clear the fields
-        UICtrl.clearFiels();
-        
-        // 5. Calculate the budget
-        
-        // 6. Display the budget
-     
+            // 3. Add the item to the UI
+            UICtrl.addListItem(newItem, input.type);
+
+            // 4. Clear the fields
+            UICtrl.clearFiels();    
+
+            // 5. Calculate and update budget
+            updateBudget();   
+        }
     };
     
     return {
@@ -206,7 +216,7 @@ var controller = (function(budgetCtrl, UICtrl) {
 
 })(budgetController, UIController); // invoke the function
 
-// without this line the code is not initialize
+// Without this line the code is not initialize
 controller.init();
 
 
