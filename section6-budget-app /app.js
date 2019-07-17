@@ -122,6 +122,26 @@ var UIController = (function() {
             
         },
         
+        // Clean the fields after insert a new inc or exp
+        clearFiels: function() {
+            
+            var fields, fieldsArr;
+            
+            fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue); 
+            
+            // this is trick to use slice in a list(fields is a list)
+            fieldsArr = Array.prototype.slice.call(fields);
+            
+            // callback function
+            fieldsArr.forEach(function(current, index, array) {  
+                current.value = ""; 
+                
+            }); 
+            
+            // Focus method to put focus in the first field.
+            fieldsArr[0].focus();
+        },
+        
         // we are exposing the DOMstrings by the public
         getDOMstrings: function() {
             return DOMstrings;
@@ -168,9 +188,12 @@ var controller = (function(budgetCtrl, UICtrl) {
         // 3. Add the item to the UI
         UICtrl.addListItem(newItem, input.type);
         
-        // 4. Calculate the budget
+        // 4. Clear the fields
+        UICtrl.clearFiels();
         
-        // 5. Display the budget
+        // 5. Calculate the budget
+        
+        // 6. Display the budget
      
     };
     
