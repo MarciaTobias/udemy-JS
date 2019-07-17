@@ -18,15 +18,51 @@ var budgetController = (function() {
     // data structure ready to receive data
     var data = {   
         allItems: {
-            exp: [];
+            exp: [],
             inc: []
         },
         totals: {
             exp: 0,
             inc: 0
         }
-    }
-                        
+    };
+    
+    return {
+        
+        // it will save the information inputed by the user
+        addItem: function(type, des, val) {
+            
+            var newItem, ID;
+            
+            // it will verify if the array is empty
+            if(data.allItems[type].length > 0) {
+                
+                // Create new ID 
+                ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
+                
+            } else {
+                ID = 0;
+            }
+            
+            
+            // Create new item based on 'inc' or 'exp' type
+            if(type === 'exp') {     
+                newItem = new Expense(ID, des, val);
+                
+            } else if (type === 'inc') {
+                newItem = new Expense(ID, des, val);
+            }
+            
+            // insert the new element in the end of the array
+            data.allItems[type].push(newItem);
+            return newItem;
+        },
+        
+        testing: function() {
+            console.log(data);
+        }
+        
+    };              
 })();
 
 // UI CONTROLLER (independente modules)
@@ -88,11 +124,14 @@ var controller = (function(budgetCtrl, UICtrl) {
     
     var ctrlAddItem = function() {
         
+        var input, newItem;
+        
         // 1. Get the filed input data
         // Thats is the public method we can access
-        var input = UICtrl.getInput();
+        input = UICtrl.getInput();
         
         // 2. Add the item to the budget controller
+        newItem = budgetCtrl.addItem(input.type, input.description, input.value);
         
         // 3. Add the item to the UI 
         
