@@ -1,21 +1,34 @@
 // BUDGET CONTROLLER
 var budgetController = (function() {
     
-    // function constructor
+    // Function constructor
     var Expense = function(id, description, value) {
         this.id = id;
         this.description = description;
         this.value = value;
     };
     
-    // function constructor
+    // Function constructor
     var Income = function(id, description, value) {
         this.id = id;
         this.description = description;
         this.value = value;
     }; 
     
-    // data structure ready to receive data
+    var calculateTotal = function(type) {
+        
+        var sum = 0;
+        
+        data.allItems[type].forEach(function(cur) {
+            
+            // cur refetes to inc or exp
+            sum += cur.value;
+        });
+        
+        data.totals[type] = sum;
+    }
+    
+    // Data structure ready to receive data, global data
     var data = {   
         allItems: {
             exp: [],
@@ -24,17 +37,19 @@ var budgetController = (function() {
         totals: {
             exp: 0,
             inc: 0
-        }
+        },
+        budget: 0,
+        percentage: -1 // -1 is not existence
     };
     
     return {
         
-        // it will save the information inputed by the user
+        // It will save the information inputed by the user
         addItem: function(type, des, val) {
             
             var newItem, ID;
             
-            // it will verify if the array is empty
+            // It will verify if the array is empty
             if(data.allItems[type].length > 0) {
                 
                 // Create new ID 
@@ -50,12 +65,42 @@ var budgetController = (function() {
                 newItem = new Expense(ID, des, val);
                 
             } else if (type === 'inc') {
-                newItem = new Expense(ID, des, val);
+                newItem = new Income(ID, des, val);
             }
             
-            // insert the new element in the end of the array
+            // Insert the new element in the end of the array
             data.allItems[type].push(newItem);
             return newItem;
+        },
+        
+        calculateBudget: function() {
+          
+            // 1. Calculate total income and expenses
+            calculateTotal('exp');
+            calculateTotal('inc');
+            
+            // 2. Calculate the budget: income - expenses
+            data.budget = data.totals.inc - data.totals.exp;
+            
+            // Calculate the percentage of income that we spent
+            if (data.totals.inc > 0) {
+                
+                // 3. Calculate the percentage of income taht we spent
+                data.percentage = Math.round((data.totals.exp / data.totals.inc) * 100);
+                
+                } else {
+                data.percentage = -1;
+            }
+        },
+        
+        getBudget: function() {
+          
+            return {
+                budget: data.budget,
+                totalInc: data.totals.inc,
+                totalExp: data.totals.exp,
+                percentage: data.percentage
+            }
         },
         
         testing: function() {
@@ -82,9 +127,11 @@ var UIController = (function() {
         
         getInput: function() {
             
-            return {    
+            return { 
+                
                 // Properties of an object. It will read  the input values of those fields
-                type: document.querySelector(DOMstrings.inputType).value, // will be either inc or exp
+                // Will be either inc or exp
+                type: document.querySelector(DOMstrings.inputType).value, 
                 description: document.querySelector(DOMstrings.inputDescription).value,
                 // Converts the string to a float number
                 value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
@@ -95,8 +142,7 @@ var UIController = (function() {
             
             var html, newHTML, element;
             
-            // Create HTML string with placeholder text
-            
+            // Create HTML string with placeholder text    
             if (type === 'inc') {
                 
                 element = DOMstrings.incomeContainer;
@@ -128,10 +174,10 @@ var UIController = (function() {
             
             fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue); 
             
-            // this is trick to use slice in a list(fields is a list)
+            // This is trick to use slice in a list(fields is a list)
             fieldsArr = Array.prototype.slice.call(fields);
             
-            // callback function
+            // Callback function
             fieldsArr.forEach(function(current, index, array) {  
                 current.value = ""; 
                 
@@ -141,14 +187,14 @@ var UIController = (function() {
             fieldsArr[0].focus();
         },
         
-        // we are exposing the DOMstrings by the public
+        // We are exposing the DOMstrings by the public
         getDOMstrings: function() {
             return DOMstrings;
         }
     }
     
     
-})(); // invoke the function
+})(); // Invoke the function
 
 
 // GLOBAL APP CONTROLLER (independente modules)
@@ -160,26 +206,28 @@ var controller = (function(budgetCtrl, UICtrl) {
         
         document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
     
-        // add event when the user press the keyword enter
+        // Add event when the user press the keyword enter
         document.addEventListener('keypress', function(event) {
         
-            // which is for others brozers
+            // Which is for others brozers
             if(event.keyCode === 13 || event.which === 13) {
             
                 ctrlAddItem();
             
             }      
-        });
-        
+        });      
     };
     
     var updateBudget = function() {
         
         // 1. Calculate the budget
+        budgetCtrl.calculateBudget();
         
         // 2. Return the budget
+        var budget = budgetCtrl.getBudget();
         
         // 3. Display the budget
+        console.log(budget);
         
     }
     
@@ -187,8 +235,8 @@ var controller = (function(budgetCtrl, UICtrl) {
         
         var input, newItem;
         
-        // 1. Get the filed input data
         // That is the public method we can access
+        // 1. Get the filed input data
         input = UICtrl.getInput();
         
         if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
@@ -214,7 +262,7 @@ var controller = (function(budgetCtrl, UICtrl) {
         }
     }
 
-})(budgetController, UIController); // invoke the function
+})(budgetController, UIController); // Invoke the function
 
 // Without this line the code is not initialize
 controller.init();
