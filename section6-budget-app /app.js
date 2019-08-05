@@ -15,18 +15,20 @@ var budgetController = (function() {
         this.value = value;
     }; 
     
+    // Private function to calculate the total of incomes or expenses
     var calculateTotal = function(type) {
         
         var sum = 0;
         
+        // Loop to over in array, this acpets call back function
         data.allItems[type].forEach(function(cur) {
             
-            // cur refetes to inc or exp
+            // cur refers to inc or exp
             sum += cur.value;
         });
         
         data.totals[type] = sum;
-    }
+    };
     
     // Data structure ready to receive data, global data
     var data = {   
@@ -93,6 +95,7 @@ var budgetController = (function() {
             }
         },
         
+        // Method to return data
         getBudget: function() {
           
             return {
@@ -100,7 +103,7 @@ var budgetController = (function() {
                 totalInc: data.totals.inc,
                 totalExp: data.totals.exp,
                 percentage: data.percentage
-            }
+            };
         },
         
         testing: function() {
@@ -120,7 +123,11 @@ var UIController = (function() {
         inputValue: '.add__value',
         inputBtn: '.add__btn',
         incomeContainer: '.income__list',
-        expensesContainer: '.expenses__list'
+        expensesContainer: '.expenses__list',
+        budgetLabel: '.budget__value',
+        incomeLabel: '.budget__income--value',
+        expensesLabel: '.budget__expenses--value',
+        percentageLabel: '.budget__expenses--percentage'
     };
     
     return {
@@ -187,6 +194,22 @@ var UIController = (function() {
             fieldsArr[0].focus();
         },
         
+        // Method to display the values pf budget, total income, total expense and percentage to the user.
+        displayBudget: function(obj) {
+            
+            document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
+            document.querySelector(DOMstrings.incomeLabel).textContent = obj.budget.totalInc;
+            document.querySelector(DOMstrings.expensesLabel).textContent = obj.budget.totalExp;
+         
+            if (obj.percentage > 0) {
+                
+                document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + '%';     
+            } else {
+                document.querySelector(DOMstrings.percentageLabel).textContent = '---';
+            }
+            
+        },
+        
         // We are exposing the DOMstrings by the public
         getDOMstrings: function() {
             return DOMstrings;
@@ -227,9 +250,9 @@ var controller = (function(budgetCtrl, UICtrl) {
         var budget = budgetCtrl.getBudget();
         
         // 3. Display the budget
-        console.log(budget);
+        UICtrl.displayBudget(budget);
         
-    }
+    };
     
     var ctrlAddItem = function() {
         
@@ -255,12 +278,20 @@ var controller = (function(budgetCtrl, UICtrl) {
         }
     };
     
+    // It will run in the beggning of the application
     return {
         init: function() {
             console.log('Application has started');
+            // Everuthing will be set to 0
+             UICtrl.displayBudget({
+                budget: 0,
+                totalInc: 0,
+                totalExp: 0,
+                percentage: -1
+            });
             setupEventListeners();
         }
-    }
+    };
 
 })(budgetController, UIController); // Invoke the function
 
