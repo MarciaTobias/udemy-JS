@@ -235,8 +235,7 @@ var controller = (function(budgetCtrl, UICtrl) {
             // Which is for others brozers
             if(event.keyCode === 13 || event.which === 13) {
             
-                ctrlAddItem();
-            
+                ctrlAddItem();      
             }      
         });      
     };
