@@ -202,6 +202,15 @@ var UIController = (function() {
             
         },
         
+        deleteListemItem: function(selectorID) {
+            
+            // thats is the item we want remove
+            var el = document.getElementById(selectorID)
+            // we can just remove the chield
+            el.parentNode.removeChild(el);
+            
+        },
+        
         // Clean the fields after insert a new inc or exp
         clearFiels: function() {
             
@@ -326,8 +335,10 @@ var controller = (function(budgetCtrl, UICtrl) {
             budgetCtrl.deleteItem(type, ID);
             
             // 2. Delete the item from UI
+            UICtrl.deleteListemItem(itemID);
             
             // 3. Update and show the new budget
+            updateBudget();
         }
     };
     
