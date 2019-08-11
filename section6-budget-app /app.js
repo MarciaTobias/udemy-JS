@@ -6,6 +6,15 @@ var budgetController = (function() {
         this.id = id;
         this.description = description;
         this.value = value;
+        this.percentage = -1;
+    };
+    
+    Expense.prototype.calculatePercentage = function(totalIncome) {
+        
+        // Integer percentage value
+        this.percentage = Math.round((this.value / totalIncome) * 100);
+        
+        
     };
     
     // Function constructor
@@ -120,6 +129,20 @@ var budgetController = (function() {
                 } else {
                 data.percentage = -1;
             }
+        },
+        
+        calculatePercentages: function() {
+            
+            /* 
+            a = 20
+            b = 10
+            C = 40
+            income = 100
+            a = 20 / 100 = 20%
+            b = 10 / 100 = 10%
+            c = 40 / 100 = 40%
+            
+            */
         },
         
         // Method to return data
