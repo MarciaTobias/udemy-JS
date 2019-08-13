@@ -69,7 +69,7 @@ var budgetController = (function() {
             var newItem, ID;
             
             // It will verify if the array is empty
-            if(data.allItems[type].length > 0) {
+            if (data.allItems[type].length > 0) {
                 
                 // Create new ID 
                 ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
@@ -92,18 +92,16 @@ var budgetController = (function() {
             return newItem;
         },
         
-        // Method that will be call from budget control
+        
         deleteItem: function(type, id) {
-            
-            // id = 3
-            //dataa..Items[typpe][id];
-            
-            // ids = [1 2 3 6 8]
-            
             var ids, index;
             
+            // id = 6
+            //data.allItems[type][id];
+            // ids = [1 2 4  8]
+            //index = 3
+            
             ids = data.allItems[type].map(function(current) {
-                 
                 return current.id;
                 
             });
@@ -157,8 +155,8 @@ var budgetController = (function() {
             });
         },
         
+        
         getPercentages: function() {
-            
             var allPerc = data.allItems.exp.map(function(cur) {
                return cur.getPercentage(); 
             });
@@ -178,9 +176,9 @@ var budgetController = (function() {
         
         testing: function() {
             console.log(data);
-        }
-        
-    };              
+        }    
+    }; 
+    
 })();
 
 // UI CONTROLLER (independente modules)
@@ -202,12 +200,10 @@ var UIController = (function() {
         expensesPercLabel: '.item__percentage',
         dateLabel: '.budget__title--month'
     };
-    
+       
     var formatNumber = function(num, type) {
-            
-            var numSplit, int, dec, type;
-            
-            /*
+        var numSplit, int, dec, type;
+        /*
             + or - before number
             exactly 2 decimal points
             comma separiting the thousands
@@ -238,6 +234,13 @@ var UIController = (function() {
             
         };
     
+    
+    var nodeListForEach = function(list, callback) {
+        for (var i = 0; i < list.length; i++) {
+            callback(list[i], i);
+        }
+    };
+    
     return {
         
         getInput: function() {
@@ -253,13 +256,12 @@ var UIController = (function() {
             };        
         },
         
+        
         addListItem: function(obj, type) {
+            var html, newHtml, element;
+            // Create HTML string with placeholder text
             
-            var html, newHTML, element;
-            
-            // Create HTML string with placeholder text    
             if (type === 'inc') {
-                
                 element = DOMstrings.incomeContainer;
                 
                 html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
@@ -272,27 +274,25 @@ var UIController = (function() {
             }
 
             // Replace the placeholder text with some actual data
-            newHTML = html.replace('%id%', obj.id);
-            newHTML = newHTML.replace('%description%', obj.description);
-            newHTML = newHTML.replace('%value%', formatNumber(obj.value, type));
+            newHtml = html.replace('%id%', obj.id);
+            newHtml = newHtml.replace('%description%', obj.description);
+            newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
             
-            // Insert the hTML into the DOM
-            
-            document.querySelector(element).insertAdjacentHTML('beforeend', newHTML);
-            
+            // Insert the HTML into the DOM
+            document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
         },
         
         deleteListItem: function(selectorID) {
             
             // thats is the item we want remove
-            var el = document.getElementById(selectorID)
+            var el = document.getElementById(selectorID);
             // we can just remove the chield
             el.parentNode.removeChild(el);
             
         },
         
         // Clean the fields after insert a new inc or exp
-        clearFiels: function() {
+        clearFields: function() {
             
             var fields, fieldsArr;
             
@@ -317,10 +317,10 @@ var UIController = (function() {
             var type;
             obj.budget > 0 ? type = 'inc' : type = 'exp';
             
-            document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(obj.budget,type);
-            document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(obj.budget.totalInc, 'inc');
-            document.querySelector(DOMstrings.expensesLabel).textContent = formatNumber(obj.budget.totalExp, 'exp');
-         
+            document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(obj.budget, type);
+            document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(obj.totalInc, 'inc');
+            document.querySelector(DOMstrings.expensesLabel).textContent = formatNumber(obj.totalExp, 'exp');
+            
             if (obj.percentage > 0) {
                 
                 document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + '%';     
@@ -333,32 +333,24 @@ var UIController = (function() {
         displayPercentages: function(percentages) {
           
             var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
-            
-            var nodeListForEach = function(list, callnack) {
-                
-                for (var i = 0; i < list.length; ) {
-                    
-                    callnack(list[i], i);
-                }
-                
-            };
+
             
             nodeListForEach(fields, function(current, index) {
                 
                 if (percentages[index] > 0) { 
                     current.textContent = percentages[index] + '%';
                 } else {
-                    current.textContent = '---'
-                }    
+                    current.textContent = '---';
+                }
             });
         },
         
+        
         displayMonth: function() {
-            
             var now, months, month, year;
           
             now = new Date();
-            // avr christmas = new Date92016, 11, 25);
+            //var christmas = new Date(2016, 11, 25);
             
             months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
             
@@ -366,6 +358,21 @@ var UIController = (function() {
             
             year = now.getFullYear();
             document.querySelector(DOMstrings.dateLabel).textContent = months[month] + ' ' + year;
+        },
+        
+        changedType: function() {
+            
+            // this will return node list
+            var fields = document.querySelectorAll(
+                DOMstrings.inputType + ',' +
+                DOMstrings.inputDescription + ',' +
+                DOMstrings.inputValue);
+        
+            nodeListForEach(fields, function(cur) { 
+                cur.classList.toggle('red-focus');
+            });
+            
+            document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
         },
         
         // We are exposing the DOMstrings by the public
@@ -390,13 +397,15 @@ var controller = (function(budgetCtrl, UICtrl) {
         document.addEventListener('keypress', function(event) {
         
             // Which is for others brozers
-            if(event.keyCode === 13 || event.which === 13) {
+            if (event.keyCode === 13 || event.which === 13) {
             
                 ctrlAddItem();      
             }      
         }); 
         
         document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+        
+        document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changeType);
     };
         
     var updateBudget = function() {
@@ -425,12 +434,12 @@ var controller = (function(budgetCtrl, UICtrl) {
         
     };
     
+    
     var ctrlAddItem = function() {
-        
         var input, newItem;
         
         // That is the public method we can access
-        // 1. Get the filed input data
+        // 1. Get the field input data
         input = UICtrl.getInput();
         
         if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
@@ -442,7 +451,7 @@ var controller = (function(budgetCtrl, UICtrl) {
             UICtrl.addListItem(newItem, input.type);
 
             // 4. Clear the fields
-            UICtrl.clearFiels();    
+            UICtrl.clearFields();
 
             // 5. Calculate and update budget
             updateBudget();   
@@ -460,7 +469,7 @@ var controller = (function(budgetCtrl, UICtrl) {
         // this is transversion, when hits the icon to delete it will get the parent
         itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;  
         
-        if(itemID) {
+        if (itemID) {
             
             // inc-1
             splitID = itemID.split('-');
@@ -470,8 +479,8 @@ var controller = (function(budgetCtrl, UICtrl) {
             // 1. Detele the item from the data structure
             budgetCtrl.deleteItem(type, ID);
             
-            // 2. Delete the item from UI
-            UICtrl.deleteListemItem(itemID);
+            // 2. Delete the item from the UI
+            UICtrl.deleteListItem(itemID);
             
             // 3. Update and show the new budget
             updateBudget();
@@ -484,8 +493,7 @@ var controller = (function(budgetCtrl, UICtrl) {
     // It will run in the beggning of the application
     return {
         init: function() {
-            console.log('Application has started');
-            
+            console.log('Application has started.');
             UICtrl.displayMonth();
             // Everuthing will be set to 0
              UICtrl.displayBudget({
