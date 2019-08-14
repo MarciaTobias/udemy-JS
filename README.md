@@ -20,3 +20,6 @@
 - Inheritance and the Prototype Chain, Function Constructors, The Prototype Chain in the Console, Object.create, Primitives x Objects Passing Functions as Arguments, Functions Returning Functions, Immediately Invoked Function Expressions (IIFE), Closures and Bind, Call and Apply.
 
 ### 5. Section 6: Putting It All Together: The Budget App Project
+- Controller Budget Project: Planning and Architecture and Building Project
+
+### 6. Section 7: Section 7: Next Generation JavaScript: Intro to ES6 / ES2015
