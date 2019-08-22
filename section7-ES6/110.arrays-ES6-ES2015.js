@@ -43,7 +43,16 @@ var full = ages.map(function(cur) {
    return cur >= 18; 
 });
 console.log(full);
-
+// retrieve de idex
 console.log(full.indexOf(true));
-console.log(ages(full.indexOf(true)));
+// to fiend the value
+console.log(ages[full.indexOf(true)]);
+
+
+//ES6
+// retrieve de idex
+console.log(ages.findIndex(cur => cur >= 18));
+// to fiend the value
+console.log(ages.find(cur => cur >= 18));
+
 
