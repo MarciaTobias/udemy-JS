@@ -30,3 +30,17 @@ function SmithPerson(firstName, lastName = 'Smith', yearOfBirth, nationality = '
 var john = new SmithPerson('John', 1990);
 // the default parameters can be overriden
 var emily = new SmithPerson('Emily', 1983, 'Diaz', 'spanish');
+
+let name = 'Maria';
+name = 'Sonia';
+console.log(name);
+
+var printNumTwo;
+for (var i = 0; i < 3; i++) {
+  if(i === 2){
+    printNumTwo = function() {
+      return i;
+    };
+  }
+}
+console.log(printNumTwo());
