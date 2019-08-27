@@ -1,6 +1,6 @@
 // LECTURE: Let and const
 
- ES5
+//ES5
 var name5 = 'Jane Smith';
 var age = 23;
 name5 = 'Jane Miller';
@@ -12,7 +12,7 @@ let age = 23;
 name6 = 'Jane Miller';
 console.log(name6);
 
- ES5
+//ES5
 function driversLicence (passedTest) {
     
     if (passedTest) {
