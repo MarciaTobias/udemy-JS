@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Asynchronous JavaScript</title>
+</head>
+<body>
+    <h1>Asynchronous JavaScript</h1>
+    <script>
+        // execution function is used to inform the promise if the event is successful or not.
+        // If is successful it will call the resolve function.
+        // If is reject it will call the reject function.
+        // This promise it will be always successfull.
+        const getIDs = new Promise((resolve, reject) => {
+
+            setTimeout(() => {
+                resolve([523, 883, 432, 974]);
+            }, 1500);
+        });
+
+         const getRecipe = recID => {
+            return new Promise((resolve, reject) => {
+                setTimeout(ID => {
+                // object pasta
+                const recipe = {title: 'Fresh tomato pasta', publisher: 'Jonas'};
+                resolve(`${ID}: ${recipe.title}`);
+                }, 1500, recID);
+            });
+         };
+
+         const getRelated = publisher => {
+            return new Promise((resolve, reject) => {
+                setTimeout(pub => {
+                    const recipe = {title: 'Italian Pizza', publisher: 'Jonas'};
+                    resolve(`${pub}: ${recipe.title}`);
+                }, 1500, publisher);     
+            });
+         };
+
+        async function getRecipesAW() {
+            // We wait for this promise to resolve, assign a value to this id variable
+            // and simply log it to the console.
+            const IDs = await getIDs;
+            console.log(IDs);
+            const recipe = await getRecipe(IDs[2]);
+            console.log(recipe);
+            const related = await getRelated('Jonas');
+            console.log(related);
+
+            return recipe;
+        }
+        // Then is used to consume the promise 
+        getRecipesAW().then(result => console.log(`${result} is the best ever!`));
+        
+    </script>
+</body>
+</html>
