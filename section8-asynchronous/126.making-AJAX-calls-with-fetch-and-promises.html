@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Asynchronous JavaScript</title>
+</head>
+<body>
+    <h1>Asynchronous JavaScript</h1>
+    <script>
+        function getweather(woid) {
+            // fecth from the api
+            fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woid}/`,
+            {headers: new Headers({'X-Requested-With': 'XMLHttpRequest'})})
+            // consume promise
+            .then(result => {
+                console.log(result);
+                // this will return a promise
+                return result.json();
+            })
+            .then(data => {
+                //console.log(data);
+                const today = data.consolidated_weather[0];
+                console.log(`Temperature in ${data.title} stay between ${today.min_temp} and ${today.max_temp} degrees celsius`);
+            })
+            // shows if there is some error
+            .catch(error => console.log(error));
+        }
+        getweather(2487956);
+        getweather(44418);
+    </script>
+</body>
+</html>
