@@ -45,8 +45,9 @@
         }
 
         getWeatherAW(2487956);
-        // This is the result of promise
+        // This is the result of promise. 
         let dataLondon
+        // We can access it using then method on this promise (getWeatherAW).
         getWeatherAW(44418).then(data => {
             dataLondon = data
             console.log(dataLondon);
