@@ -2,6 +2,7 @@
 import str from './modules/Search'
 
 // import many functions at the same time
+// We changed the name when we imported using as
 import { add as a, multiply as m, ID } from './views/SearchView';
 
 console.log(`Using imported functions! ${a(ID, 2)} and ${m(3, 5)}. ${str}`);
