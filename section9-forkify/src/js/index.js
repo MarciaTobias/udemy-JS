@@ -1,8 +1,13 @@
-// when we import we dont' need the extension name
-import str from './modules/Search'
+// conversion give the same like the code
+import axios from 'axios';
 
-// import many functions at the same time
-// We changed the name when we imported using as
-import { add as a, multiply as m, ID } from './views/SearchView';
-
-console.log(`Using imported functions! ${a(ID, 2)} and ${m(3, 5)}. ${str}`);
+async function getResults(query) {
+    // that one is better than fetch, return automaticaly json
+    const key = 'fc9c16f3c0fdccce9fd63e9003aeb034';
+    // q cames from the api
+    // that is the way to handle the api
+    const res = await axios(`https://www.food2fork.com/api/search?key=${key}&q=${query}`);
+    const recipes = res.data.recipes;
+    console.log(recipes);
+}
+getResults();
