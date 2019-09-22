@@ -1,3 +1,4 @@
-export const add = (a, b) => a + b;
-export const multiply = (a, b) => a * b;
-export const ID = 23;
+import { elements } from './base';
+
+// The return is implicity, when is just one line of code in the arrow function
+export const getInput = () => elements.searchInput.value;
