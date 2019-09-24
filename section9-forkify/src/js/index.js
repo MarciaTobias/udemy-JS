@@ -20,6 +20,8 @@ const controlSearch = async () => {
         state.search = new Search(query);
 
         // 3) Prepare UI for results
+        searchView.clearInput();
+        searchView.clearResults();
 
         // 4) Search for recipes
         // This will return a promise, because of it we put await and azync in the function

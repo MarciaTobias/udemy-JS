@@ -3,6 +3,16 @@ import { elements } from './base';
 // The return is implicity, when is just one line of code in the arrow function
 export const getInput = () => elements.searchInput.value;
 
+// clear the results of the search
+export const clearResults = () => {
+    elements.searchResList.innerHTML = '';
+};
+
+// clear the searh input
+export const clearInput = () => {
+    elements.searchInput.value = '';
+};
+
 // this function will recive um recipe, private function
 const renderRecipe  = recipe => {
     const markupp = `
@@ -26,4 +36,4 @@ export const renderResults = recipes => {
     console.log(recipes);
     // the best way to go through to the array (for each)
     recipes.forEach(renderRecipe);
-}
+};
