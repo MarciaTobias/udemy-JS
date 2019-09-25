@@ -1,6 +1,6 @@
 import Search from './modules/Search';
 import * as searchView from './views/SearchView';
-import { elements } from './views/base';
+import { elements, renderLoader, clearLoader } from './views/base';
 
 /** Global state of the app 
  * - Search object
@@ -22,12 +22,14 @@ const controlSearch = async () => {
         // 3) Prepare UI for results
         searchView.clearInput();
         searchView.clearResults();
+        renderLoader(elements.searchRes);
 
         // 4) Search for recipes
         // This will return a promise, because of it we put await and azync in the function
         await state.search.getResults();
 
         // 5) Render results on UI
+        clearLoader();
         searchView.renderResults(state.search.result);
     }
 
