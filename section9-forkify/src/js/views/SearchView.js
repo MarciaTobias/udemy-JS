@@ -59,8 +59,17 @@ const renderRecipe  = recipe => {
     elements.searchResList.insertAdjacentHTML('beforeend', markupp);
 }
 
-export const renderResults = recipes => {
+// The function that will be called whenever we click on one of the buttons.
+export const renderResults = (recipes, page = 1, resPerPage = 10) => {
     console.log(recipes);
+    // it will show the first recipe to the first page (array 0) up to the item 10 in the first page.
+    // this will provide to show exactly 10 itens per page
+    const start = (page - 1) * resPerPage;
+    const end = page * resPerPage;
+
     // the best way to go through to the array (for each)
-    recipes.forEach(renderRecipe);
+    // The slice() method returns a shallow copy of a portion of an array into a new array object selected
+    // from begin to end (end not included) where begin and end represent the index of items in that array.
+    // The original array will not be modified.
+    recipes.slice(start, end).forEach(renderRecipe);
 };
