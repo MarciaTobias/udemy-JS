@@ -40,5 +40,13 @@ elements.searchForm.addEventListener('submit', e => {
     controlSearch();
 });
 
-const search = new Search('pizza');
-console.log(search);
+// Adding actionn for the buttons of pagination
+elements.searchResPages.addEventListener('click', e => {
+
+    // the closest() method traverses parents (heading toward the document root) of the Element until
+    // it finds a node that matches the provided selectorString. Will return itself or the matching ancestor.
+    // If no such element exists, it returns null.
+    const btn = e.target.closest('.btn-inline');
+    // target is exacly here this event happens
+    console.log(btn);
+});

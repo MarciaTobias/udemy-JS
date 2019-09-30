@@ -86,7 +86,7 @@ const renderButtons = (page, numResults, resPerPage) => {
         // Both pages
         button = `
                 ${createButton(page, 'prev')}
-                ${createButton(page, 'prev')}
+                ${createButton(page, 'next')}
             `;
         
     } else if (page === pages && pages > 1) {
@@ -98,7 +98,7 @@ const renderButtons = (page, numResults, resPerPage) => {
 };
 
 // The function that will be called whenever we click on one of the buttons.
-export const renderResults = (recipes, page = 1, resPerPage = 10) => {
+export const renderResults = (recipes, page = 2, resPerPage = 10) => {
     console.log(recipes);
     // render results of current age
     // it will show the first recipe to the first page (array 0) up to the item 10 in the first page.
