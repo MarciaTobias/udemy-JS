@@ -3,7 +3,8 @@ export const elements = {
     // we an elment with a property called search__input, which contains this DOM element here
     searchRes: document.querySelector('.results'),
     searchInput: document.querySelector('.search__field'),
-    searchResList: document.querySelector('.results__list')
+    searchResList: document.querySelector('.results__list'),
+    searchResPages: document.querySelector('.results__pages')
 };
 
 export const elementsStrings = {

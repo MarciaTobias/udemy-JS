@@ -59,21 +59,48 @@ const renderRecipe  = recipe => {
     elements.searchResList.insertAdjacentHTML('beforeend', markupp);
 }
 
+// Type: 'previous' or 'next'
+const createButton = (page, type) => `
+
+    <button class="btn-inline results__btn--${type}" data-goto=${type === 'prev' ? page - 1 : page + 1}>
+        <svg class="search__icon">
+            <use href="img/icons.svg#icon-triangle-${type === 'left' ? page - 1 : 'right'}"></use>
+        </svg>
+        <span>Page ${type === 'prev' ? page - 1 : page + 1}</span>
+    </button>
+`;
+
 // Private function to show the buttons of pagination
 const renderButtons = (page, numResults, resPerPage) => {
     // Calculation to fiend how many pages
     // Round the results to the ceiling
     const pages = Math.ceil(numResults / resPerPage);
 
-    if (page == 1) {
-        // button to go to the next page
+    let button;
 
-    } else if 
+    if (page === 1 && pages > 1) {
+        // button to go to the next page
+        button = createButton(page, 'next');
+
+    } else if (page < pages) {
+        // Both pages
+        button = `
+                ${createButton(page, 'prev')}
+                ${createButton(page, 'prev')}
+            `;
+        
+    } else if (page === pages && pages > 1) {
+        button = createButton(page, 'prev');
+
+    }
+
+    elements.searchResPages.insertAdjacentHTML('afterbegin', button);
 };
 
 // The function that will be called whenever we click on one of the buttons.
 export const renderResults = (recipes, page = 1, resPerPage = 10) => {
     console.log(recipes);
+    // render results of current age
     // it will show the first recipe to the first page (array 0) up to the item 10 in the first page.
     // this will provide to show exactly 10 itens per page
     const start = (page - 1) * resPerPage;
@@ -84,4 +111,7 @@ export const renderResults = (recipes, page = 1, resPerPage = 10) => {
     // from begin to end (end not included) where begin and end represent the index of items in that array.
     // The original array will not be modified.
     recipes.slice(start, end).forEach(renderRecipe);
+
+    // render pagination button 
+    renderButtons(page, recipes.length, resPerPage);
 };
