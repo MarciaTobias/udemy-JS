@@ -59,6 +59,18 @@ const renderRecipe  = recipe => {
     elements.searchResList.insertAdjacentHTML('beforeend', markupp);
 }
 
+// Private function to show the buttons of pagination
+const renderButtons = (page, numResults, resPerPage) => {
+    // Calculation to fiend how many pages
+    // Round the results to the ceiling
+    const pages = Math.ceil(numResults / resPerPage);
+
+    if (page == 1) {
+        // button to go to the next page
+
+    } else if 
+};
+
 // The function that will be called whenever we click on one of the buttons.
 export const renderResults = (recipes, page = 1, resPerPage = 10) => {
     console.log(recipes);
