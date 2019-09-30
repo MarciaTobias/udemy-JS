@@ -48,5 +48,13 @@ elements.searchResPages.addEventListener('click', e => {
     // If no such element exists, it returns null.
     const btn = e.target.closest('.btn-inline');
     // target is exacly here this event happens
-    console.log(btn);
+    //console.log(e.target);
+    //console.log(btn);
+    if (btn) {
+        // parseInt base 10 (from 0 to 10)
+        const goToPage = parseInt(btn.dataset.goto, 10);
+        searchView.clearResults();
+        searchView.renderResults(state.search.result, goToPage);
+        //console.log(goToPage);
+    }
 });

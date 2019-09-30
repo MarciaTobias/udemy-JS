@@ -7,6 +7,7 @@ export const getInput = () => elements.searchInput.value;
 // clear the results of the search
 export const clearResults = () => {
     elements.searchResList.innerHTML = '';
+    elements.searchResPages.innerHTML = '';
 };
 
 // clear the searh input
@@ -98,7 +99,7 @@ const renderButtons = (page, numResults, resPerPage) => {
 };
 
 // The function that will be called whenever we click on one of the buttons.
-export const renderResults = (recipes, page = 2, resPerPage = 10) => {
+export const renderResults = (recipes, page = 1, resPerPage = 10) => {
     console.log(recipes);
     // render results of current age
     // it will show the first recipe to the first page (array 0) up to the item 10 in the first page.
