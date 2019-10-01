@@ -1,5 +1,6 @@
 // conversion give the same like the code
 import axios from 'axios';
+import { key } from '../config';
 
 // export dedault we simple put an expression
 export default class Search {
@@ -7,10 +8,7 @@ export default class Search {
         this.query = query;
     }
 
-    async getResults() {
-        // that one is better than fetch, return automaticaly json
-        const key = 'fc9c16f3c0fdccce9fd63e9003aeb034';
-    
+    async getResults() { 
         try {
             // q cames from the api
             // that is the way to handle the api
