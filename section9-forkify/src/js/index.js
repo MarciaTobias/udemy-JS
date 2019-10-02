@@ -29,13 +29,18 @@ const controlSearch = async () => {
         searchView.clearResults();
         renderLoader(elements.searchRes);
 
-        // 4) Search for recipes
-        // This will return a promise, because of it we put await and azync in the function
-        await state.search.getResults();
+        try {
+            // 4) Search for recipes
+            // This will return a promise, because of it we put await and azync in the function
+            await state.search.getResults();
 
-        // 5) Render results on UI
-        clearLoader();
-        searchView.renderResults(state.search.result);
+            // 5) Render results on UI
+            clearLoader();
+            searchView.renderResults(state.search.result);
+        } catch (err) {
+            alert('Something wrong with the search...');
+            clearLoader();
+        }
     }
 
 }
@@ -68,6 +73,45 @@ elements.searchResPages.addEventListener('click', e => {
  * RECIPE CONTROLLER
  */
 
- const r = new Recipe(47275);
- r.getRecipe();
- console.log(r);
+ // used for test
+//  const r = new Recipe(47275);
+//  r.getRecipe();
+//  console.log(r);
+
+const controlRecipe = async () => {
+    // windown.location is the entire url
+    // Get the id from url and replace the hash for empty space
+    // it will return a promise
+    const id = window.location.hash.replace('#', '');
+    console.log(id);
+
+    if (id) {
+        // Prepare UI for changes
+
+        // Create new recipe object
+        state.recipe = new Recipe(id);
+
+        try {
+             // Get recipe data
+        await state.recipe.getRecipe();    
+
+        // Calculate serving and time
+        state.recipe.calcTime();
+        state.recipe.calcServings();
+
+        // Render recipe
+        console.log(state.recipe);
+        } catch (err) {
+            alert('Error processinf recipe!');
+        }          
+    }
+};
+
+// Global object. Every moment we change the hash, we call the method controlRecipe
+//window.addEventListener('hashchange', controlRecipe);
+
+// Fires when the page is load
+//window.addEventListener('load', controlRecipe);
+
+// when thoose tewo events occurs, it will run the method control recipe. Those events are in the array.
+['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
