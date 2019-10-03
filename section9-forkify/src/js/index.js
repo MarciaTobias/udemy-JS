@@ -17,7 +17,8 @@ const state = {};
  
 const controlSearch = async () => {
     // 1) Get query from view
-    const query = searchView.getInput();
+    // const query = searchView.getInput();
+    const query = 'pizza';
 
     if (query) {
 
@@ -46,6 +47,12 @@ const controlSearch = async () => {
 }
 
 elements.searchForm.addEventListener('submit', e => {
+    e.preventDefault();
+    controlSearch();
+});
+
+// TESTING 
+window.addEventListener('load', e => {
     e.preventDefault();
     controlSearch();
 });
@@ -90,19 +97,23 @@ const controlRecipe = async () => {
 
         // Create new recipe object
         state.recipe = new Recipe(id);
+        
+        // TESTING (TO MAKE EXPOSITION TO GLOBAL)
+        window.r = state.recipe;
 
         try {
              // Get recipe data
-        await state.recipe.getRecipe();    
+            await state.recipe.getRecipe();    
 
-        // Calculate serving and time
-        state.recipe.calcTime();
-        state.recipe.calcServings();
+            // Calculate serving and time
+            state.recipe.calcTime();
+            state.recipe.calcServings();
 
-        // Render recipe
-        console.log(state.recipe);
+            // Render recipe
+            console.log(state.recipe);
+        
         } catch (err) {
-            alert('Error processinf recipe!');
+                alert('Error processinf recipe!');
         }          
     }
 };

@@ -33,4 +33,34 @@ export default class Recipe {
     calcServings() {
         this.servings = 4;
     }
+
+    parseIngredients() {
+        // 2 arrays, one array we will have the units as they appear in our ingredients, and in the second array,
+        // we will have them written, exactly like we want them to be.
+        const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'ozs', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
+        const unitShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tbsp', 'tbsp', 'cup', 'pound'];
+
+        // every map interation should return something
+        const newIngredients = this.ingredients.map(el => {
+            // 1) Uniform units
+            // convert to lower case
+            let ingredient = el.toLowerCase();
+            unitsLong.forEach((unit, i) => {
+                // that will replace the itens in the first aray for the respect item in the second array
+                ingredient = ingredient.replace(unit, unitShort[i]);
+            });
+
+            // 2) Remove parentheses
+            // this is called regular expression, we are going to replace evrything in the pareceteses for empty
+            ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');
+
+            // 3) Parse ingredients into count, unit and ingredient
+
+            // every map interation should return something
+            return ingredient;
+        });
+        
+        this.ingredients = newIngredients;
+
+    }
 }
