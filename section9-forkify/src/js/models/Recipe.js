@@ -39,6 +39,7 @@ export default class Recipe {
         // we will have them written, exactly like we want them to be.
         const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'ozs', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
         const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tbsp', 'tbsp', 'cup', 'pound'];
+        const units = [...unitsShort, 'kg', 'g'];
 
         // every map interation should return something
         const newIngredients = this.ingredients.map(el => {
@@ -47,7 +48,7 @@ export default class Recipe {
             let ingredient = el.toLowerCase();
             unitsLong.forEach((unit, i) => {
                 // that will replace the itens in the first aray for the respect item in the second array
-                ingredient = ingredient.replace(unit, unitsShort[i]);
+                ingredient = ingredient.replace(unit, units[i]);
             });
 
             // 2) Remove parentheses
@@ -58,7 +59,7 @@ export default class Recipe {
             const arrIng = ingredient.split(' ');
             // it will test if that element (el2) is inside of the array and will return the position
             // That's the only way to find the position of the unit, when we don't really know, hich unit we are looking for
-            const unitIndex = arrIng.findIndex(el2 => {unitsShort.includes(el2)});
+            const unitIndex = arrIng.findIndex(el2 => unitsShort.includes(el2));
 
             // Global variable, that way be accessed outside of the scope
             let objIng;
@@ -70,11 +71,11 @@ export default class Recipe {
                 // Ex. 4 1/2 cups, arrCount is [4, 1/2] -- they are strings
                 // Ex. 4 cups, arrCount is [4]
                 const arrCount = arrIng.slice(0, unitIndex); 
+                
                 let count;
-
                 if (arrCount.length === 1) {
                     // it will change the - for + and evaluate in the sequence
-                    count = eval([0].replace('-', '+'));
+                    count = eval(arrIng[0].replace('-', '+'));
                 } else {
                     // it will add and evaluete them.  (4 + 1/2 = 4.5)
                     count = eval(arrIng.slice(0, unitIndex).join('+'));
