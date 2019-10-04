@@ -38,7 +38,7 @@ export default class Recipe {
         // 2 arrays, one array we will have the units as they appear in our ingredients, and in the second array,
         // we will have them written, exactly like we want them to be.
         const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'ozs', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
-        const unitShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tbsp', 'tbsp', 'cup', 'pound'];
+        const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tbsp', 'tbsp', 'cup', 'pound'];
 
         // every map interation should return something
         const newIngredients = this.ingredients.map(el => {
@@ -47,7 +47,7 @@ export default class Recipe {
             let ingredient = el.toLowerCase();
             unitsLong.forEach((unit, i) => {
                 // that will replace the itens in the first aray for the respect item in the second array
-                ingredient = ingredient.replace(unit, unitShort[i]);
+                ingredient = ingredient.replace(unit, unitsShort[i]);
             });
 
             // 2) Remove parentheses
@@ -55,9 +55,58 @@ export default class Recipe {
             ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');
 
             // 3) Parse ingredients into count, unit and ingredient
+            const arrIng = ingredient.split(' ');
+            // it will test if that element (el2) is inside of the array and will return the position
+            // That's the only way to find the position of the unit, when we don't really know, hich unit we are looking for
+            const unitIndex = arrIng.findIndex(el2 => {unitsShort.includes(el2)});
 
+            // Global variable, that way be accessed outside of the scope
+            let objIng;
+            
+            // -1 if the result of the function above is nothing
+            if (unitIndex > -1) {
+        
+                // There is a unit
+                // Ex. 4 1/2 cups, arrCount is [4, 1/2] -- they are strings
+                // Ex. 4 cups, arrCount is [4]
+                const arrCount = arrIng.slice(0, unitIndex); 
+                let count;
+
+                if (arrCount.length === 1) {
+                    // it will change the - for + and evaluate in the sequence
+                    count = eval([0].replace('-', '+'));
+                } else {
+                    // it will add and evaluete them.  (4 + 1/2 = 4.5)
+                    count = eval(arrIng.slice(0, unitIndex).join('+'));
+                }
+
+                objIng = {
+                    count,
+                    unit: arrIng[unitIndex],
+                    ingredient: arrIng.slice(unitIndex + 1).join(' ')
+                }
+
+            } else if (parseInt(arrIng[0], 10)) {
+                // There is No iunit, but 1st element is a number
+                objIng = {
+                     count: (parseInt(arrIng[0], 10)),
+                     unit: '',
+                     // which slice will count all ingredients from the beggining to end of the array (except the item at index 1)
+                     // join will put all itens together in a string
+                     ingredient: arrIng.slice(1).join(' ')
+                }
+
+            } else if (unitIndex === -1) {
+                // There is NO unit and NO number in the 1st position
+                objIng = {
+                    count: 1, 
+                    unit: '',
+                    // it will create automaticaly the ingredient property
+                    ingredient
+                }
+            }
             // every map interation should return something
-            return ingredient;
+            return objIng;
         });
         
         this.ingredients = newIngredients;
