@@ -15,6 +15,14 @@ export const clearInput = () => {
     elements.searchInput.value = '';
 };
 
+export const higlightselected = id => {
+    const resultsArray = Array.from(document.querySelectorAll('.results__link'));
+    resultsArray.forEach(el => {
+        el.classList.remove('results__link--acctive');
+    });
+    document.querySelector(`a[href*="${id}"]`).classList.add('results__link--acctive');
+};
+
 /*
 // In the first iteration, the accumaltor is zero
 For examplo, 'Pasta with tomato and spinach'
