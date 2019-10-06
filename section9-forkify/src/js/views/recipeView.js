@@ -1,11 +1,37 @@
 import { elements } from './base';
+// for packages is not necessaary include all path
+import { Fraction } from 'fractional';
+
+export const clearRecipe = () => {
+    elements.recipe.innerHTML = '';
+};
+
+const formatCount = count => {
+    if (count) {
+        // count = 2.5 --> 2 1/2
+        // count = 0.5 --> 1/2
+        // first will convert the number to string, after split, put into a new array and convert back to number using parseInt base 10
+        const [int, dec] = count.toString().split('.').map(el => parseInt(el, 10));
+
+        if (!dec) return count;
+
+        if (int === 0) {
+            const fr = new Fraction(count);
+            return `${fr.numerator}/${fr.denominator}`;
+        } else {
+            const fr = new Fraction(count - int);
+            return `${int} ${fr.numerator}/${fr.denominator}`;
+        }
+    }
+    return '?';
+};
 
 const createIngredient = ingredient => `
     <li class="recipe__item">
     <svg class="recipe__icon">
         <use href="img/icons.svg#icon-check"></use>
     </svg>
-    <div class="recipe__count">${ingredient.count}}</div>
+    <div class="recipe__count">${formatCount(ingredient.count)}</div>
     <div class="recipe__ingredient">
         <span class="recipe__unit">${ingredient.unit}</span>
             ${ingredient.ingredient}
