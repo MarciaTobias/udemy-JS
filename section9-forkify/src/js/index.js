@@ -135,3 +135,25 @@ const controlRecipe = async () => {
 
 // when thoose tewo events occurs, it will run the method control recipe. Those events are in the array.
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+
+// Event delegation, because button are not there. We are going to test what was clicked, and then react accordingly.
+// Macthes method insted of closest.
+
+// Handling recipe button clicks.
+elements.recipe.addEventListener('click', e => {
+    // if (e.target.matchs('.btn-drecrease)) if the target matches the button decrease,
+    // .btn-drecrease * that means any chield of button drecrease.
+    if (e.target.matches('.btn-decrease, .btn-decrease *')) {
+        // Decrease button is clicked
+        if(state.recipe.servings > 1) {
+            state.recipe.uppdateServings('dec');
+            recipeView.updateServingsIngredients(state.recipe);
+        }
+        
+    } else if (e.target.matches('.btn-increase, .btn-increase *')) {
+        // Increase button is clicked
+        state.recipe.updateServings('inc');
+        recipeView.updateServingsIngredients(state.recipe);
+    }
+    console.log(state.recipe);
+});
