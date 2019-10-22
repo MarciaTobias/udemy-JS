@@ -1,8 +1,10 @@
+// Controler File
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import List from './models/List';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
 import { elements, renderLoader, clearLoader } from './views/base';
 
 /** Global state of the app 
@@ -139,7 +141,25 @@ const controlRecipe = async () => {
 // Event delegation, because button are not there. We are going to test what was clicked, and then react accordingly.
 // Macthes method insted of closest.
 
+/**
+ * LIST CONTROLLER
+ */
+const controlList = () => {
+    // Create a new list IF there is none yet
+    // The list is empty we just have to initialize with new object
+    if (!state.list) state.list = new List();
+
+    // Add each ingredient to the list and UI
+    // This one is an array and so that seems to loop over this array and then for each element in the ingredients,
+    // we're going to add a new element to our list.
+    state.recipe.ingredients.forEach(el => {
+        const item = state.list.addItem(el.count, el.unit, el.ingredient);
+        listView.renderItem(item);
+    });
+}
+
 // Handling recipe button clicks.
+// Recipe object
 elements.recipe.addEventListener('click', e => {
     // if (e.target.matchs('.btn-drecrease)) if the target matches the button decrease,
     // .btn-drecrease * that means any chield of button drecrease.
@@ -154,8 +174,9 @@ elements.recipe.addEventListener('click', e => {
         // Increase button is clicked
         state.recipe.updateServings('inc');
         recipeView.updateServingsIngredients(state.recipe);
+    } else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
+        controlList();
     }
-    console.log(state.recipe);
 });
 
 window.l = new List();
