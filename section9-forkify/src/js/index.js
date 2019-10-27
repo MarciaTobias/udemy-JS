@@ -125,10 +125,14 @@ const controlRecipe = async () => {
             // Render recipe
             //console.log(state.recipe);
             clearLoader();
-            recipeView.renderRecipe(state.recipe);
+            recipeView.renderRecipe(
+                state.recipe,
+                state.likes.isLiked(id)
+            );
         
         } catch (err) {
-                alert('Error processinf recipe!');
+            console.log(err);
+            alert('Error processinf recipe!');
         }          
     }
 };
@@ -186,6 +190,10 @@ elements.shopping.addEventListener('click', e => {
 /**
  * LIKE CONTROLLER
  */
+
+ // Testing
+state.likes = new Likes();
+
 const controlLike = () => {
     if (!state.likes) state.likes = new Likes();
     const currentID = state.recipe.id;
