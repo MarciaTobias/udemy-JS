@@ -11,7 +11,7 @@ export default class Likes {
 
     deleteLike(id) {
         // => callback function received the element
-        const index = this.likees.findIndex(el => el.id === id);
+        const index = this.likes.findIndex(el => el.id === id);
         // We pass in a start index and then how many positions we want to take. And it will then return these elements
         // and delete them from the original array.
         // [2, 4, 8] splice(1,1) => returns 4, original array is [2, 8]
