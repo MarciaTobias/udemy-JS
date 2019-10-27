@@ -1,4 +1,4 @@
-// Controler File
+// CONTROLLER FILE
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import List from './models/List';
@@ -14,6 +14,7 @@ import { elements, renderLoader, clearLoader } from './views/base';
  * - Liked recipes
  */
 const state = {};
+window.state = state;
 
 /**
  * SEARCH CONTROLLER
@@ -157,6 +158,20 @@ const controlList = () => {
         listView.renderItem(item);
     });
 }
+
+// Handle delete and update list item events
+elements.shopping.addEventListener('click', e => {
+    // this permits to click every part of the shopping list item and to fiend the item id
+    const id = e.target.closest('.shopping__tem').dataset.itemid;
+    
+    // Handle the delete button. Matches it will return a boolean value
+    if (e.target.matches('.shopping__delete, .shopping__delete *')) {
+        // Delete from state
+        state.list.deleteItem(id);
+        // Delete from UI
+        listView.deleteItem(id);
+    }
+});
 
 // Handling recipe button clicks.
 // Recipe object
