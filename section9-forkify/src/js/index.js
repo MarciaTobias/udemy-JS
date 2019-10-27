@@ -162,7 +162,7 @@ const controlList = () => {
 // Handle delete and update list item events
 elements.shopping.addEventListener('click', e => {
     // this permits to click every part of the shopping list item and to fiend the item id
-    const id = e.target.closest('.shopping__tem').dataset.itemid;
+    const id = e.target.closest('.shopping__item').dataset.itemid;
     
     // Handle the delete button. Matches it will return a boolean value
     if (e.target.matches('.shopping__delete, .shopping__delete *')) {
