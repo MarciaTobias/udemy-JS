@@ -170,6 +170,13 @@ elements.shopping.addEventListener('click', e => {
         state.list.deleteItem(id);
         // Delete from UI
         listView.deleteItem(id);
+        // E dot target is the element that was clicked. And so since this is now an input element,
+        // we can read the value property of it, which will then contain the number.
+    
+        // Handle the count update    
+    } else if (e.target.matches('.shopping__count-value')) {
+        const val = parseFloat(e.target.value, 10);
+        state.list.updateCount(id, val);
     }
 });
 
