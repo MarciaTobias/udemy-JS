@@ -20,7 +20,7 @@ export const higlightselected = id => {
     resultsArray.forEach(el => {
         el.classList.remove('results__link--acctive');
     });
-    document.querySelector(`a[href*="${id}"]`).classList.add('results__link--acctive');
+    document.querySelector(`.results__link[href*="${id}"]`).classList.add('results__link--acctive');
 };
 
 /*
