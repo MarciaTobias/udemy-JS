@@ -11,6 +11,8 @@ const formatCount = count => {
         // count = 2.5 --> 2 1/2
         // count = 0.5 --> 1/2
         // first will convert the number to string, after split, put into a new array and convert back to number using parseInt base 10
+        // This the way to work around and to get the decimal part
+        const newCount = Math.round(count * 10000) / 10000
         const [int, dec] = count.toString().split('.').map(el => parseInt(el, 10));
 
         if (!dec) return count;
